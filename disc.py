@@ -16,31 +16,29 @@ e = exp(1)
 disc_rendering_size = 5
 
 
-def simple_trajectory(t, distance, lift=0.02):  # , direction):
+def simple_trajectory(distance, direction, lift=0.02):
     """
     Simple approximation function of a frisbee trajectory outputting position given time, scaled linearly for total
         distance and total time of flight
     """
 
-    # independent constants
+    # define constants
     T = 50.0
     C = 0.34
-    # dependent constants
     D = 9.4
     L = 3.0
 
     # scale t by total time
+    # TODO get flight time from distance and lift
     t = t * T / distance
-    #x_scaled = tf.log(1.0 + t)
-    x_scaled = log(1.0 + t)
+    x_scaled = tf.log(1.0 + t)
 
     # unscale return value
     x = x_scaled * distance * C
 
     # scale x by total distance
     x_scaled = x_scaled * D / L
-    #y = distance * K * (x_scaled - tf.exp(x_scaled - 7.0)) + 1.0
-    y = distance * lift * C * (x_scaled - exp(x_scaled - 7.0)) + 1.0
+    y = distance * lift * C * (x_scaled - tf.exp(x_scaled - 7.0)) + 1.0
 
     return x, y
 

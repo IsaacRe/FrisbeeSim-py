@@ -1,7 +1,8 @@
-import sys, traceback, pdb
+#import sys, traceback, pdb
 import argparse
 
 import matplotlib.pyplot as plt
+import tensorflow as tf
 from disc import Disc, simple_trajectory
 
 TICK_TIME = 0.1
@@ -24,18 +25,19 @@ def test_disc(pos, angles, veloc):
 
 
 def test_simple_disc(distance):
-    y = 1
-    t = 0.0
-    x_coords, y_coords = [], []
+    with tf.Session() as sess:
+        y = 1
+        t = 0.0
+        x_coords, y_coords = [], []
 
-    while y > 0:
-        x, y = simple_trajectory(t, distance)
-        t += TICK_TIME
-        x_coords += [x]
-        y_coords += [y]
-    plt.plot(x_coords, y_coords)
-    plt.ylim(0, max(x_coords))
-    plt.show()
+        while y > 0:
+            x, y = simple_trajectory(t, distance)
+            t += TICK_TIME
+            x_coords += [x]
+            y_coords += [y]
+        plt.plot(x_coords, y_coords)
+        plt.ylim(0, max(x_coords))
+        plt.show()
 
 
 if __name__ == '__main__':
